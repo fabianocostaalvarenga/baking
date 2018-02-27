@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Baking</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="label_servings">Servings</string>
+
+    <string name="no_internet_connection">Internet connection not available.</string>
+    <string name="label_retry">Retry</string>
+    <string name="please_wait">Please wait...</string>
+</resources>
