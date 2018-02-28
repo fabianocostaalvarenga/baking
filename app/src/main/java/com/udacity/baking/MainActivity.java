@@ -1,21 +1,27 @@
 package com.udacity.baking;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.udacity.baking.adapter.OnItemClickListener;
 import com.udacity.baking.adapter.RecipeAdapter;
 import com.udacity.baking.databinding.ActivityMainBinding;
+import com.udacity.baking.model.Ingredient;
 import com.udacity.baking.model.Recipe;
+import com.udacity.baking.model.Step;
 import com.udacity.baking.tasks.AsyncTaskDelegate;
 import com.udacity.baking.tasks.BakingAsyncTasks;
 import com.udacity.baking.utils.NetWorkUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AsyncTaskDelegate<List<Recipe>> {
@@ -46,7 +52,13 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskDelegate
     @Override
     public void onPostProcess(List<Recipe> entity) {
         this.recipes = entity;
-        rvMain.setAdapter(new RecipeAdapter(this, entity));
+
+        rvMain.setAdapter(new RecipeAdapter(this, entity, new OnItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                launchIngredientIntentActivity(position);
+            }
+        }));
 
         if(progressDialog != null) {
             progressDialog.dismiss();
@@ -79,5 +91,16 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskDelegate
             });
             snackbar.show();
         }
+    }
+
+    private void launchIngredientIntentActivity(int adapterPosition) {
+        Intent ingredientIntent = new Intent(this, IngredientsActivity.class);
+        Recipe recipe = recipes.get(adapterPosition);
+        List<Ingredient> ingredients = this.recipes.get(adapterPosition).getIngredients();
+        List<Step> steps = this.recipes.get(adapterPosition).getSteps();
+        ingredientIntent.putParcelableArrayListExtra(Ingredient.class.getSimpleName(), (ArrayList<? extends Parcelable>) ingredients);
+        ingredientIntent.putParcelableArrayListExtra(Step.class.getSimpleName(), (ArrayList<? extends Parcelable>) steps);
+        ingredientIntent.putExtra("TITLE", recipe.getName() +" - "+ recipe.getServings() +" "+this.getString(R.string.label_servings));
+        startActivity(ingredientIntent);
     }
 }

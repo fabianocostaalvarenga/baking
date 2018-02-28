@@ -5,6 +5,7 @@
     <string name="title_notifications">Notifications</string>
 
     <string name="label_servings">Servings</string>
+    <string name="label_ingredients">Ingredients</string>
 
     <string name="no_internet_connection">Internet connection not available.</string>
     <string name="label_retry">Retry</string>

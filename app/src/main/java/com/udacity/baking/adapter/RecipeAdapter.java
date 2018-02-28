@@ -19,10 +19,12 @@ public class RecipeAdapter extends RecyclerView.Adapter {
 
     private Context ctx;
     private List<Recipe> list;
+    private OnItemClickListener listener;
 
-    public RecipeAdapter(Context ctx, List<Recipe> list) {
+    public RecipeAdapter(Context ctx, List<Recipe> list, OnItemClickListener listener) {
         this.ctx = ctx;
         this.list = list;
+        this.listener = listener;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class RecipeAdapter extends RecyclerView.Adapter {
 
         View view = LayoutInflater.from(this.ctx).inflate(R.layout.activity_recipe, parent, false);
 
-        RecipeViewHolder recipeViewHolder = new RecipeViewHolder(view);
+        RecipeViewHolder recipeViewHolder = new RecipeViewHolder(view, listener);
 
         return recipeViewHolder;
     }
