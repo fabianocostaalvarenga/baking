@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.udacity.baking.R;
-import com.udacity.baking.model.Ingredient;
+import com.udacity.baking.model.Step;
 
 import java.util.List;
 
@@ -15,12 +15,12 @@ import java.util.List;
  * Created by fabiano.alvarenga on 24/02/18.
  */
 
-public class IngredientAdapter extends RecyclerView.Adapter {
+public class StepAdapter extends RecyclerView.Adapter {
 
     private Context ctx;
-    private List<Ingredient> list;
+    private List<Step> list;
 
-    public IngredientAdapter(Context ctx, List<Ingredient> list) {
+    public StepAdapter(Context ctx, List<Step> list) {
         this.ctx = ctx;
         this.list = list;
     }
@@ -28,22 +28,22 @@ public class IngredientAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(this.ctx).inflate(R.layout.rv_ingredient_item, parent, false);
+        View view = LayoutInflater.from(this.ctx).inflate(R.layout.rv_step_item, parent, false);
 
-        IngredientViewHolder ingredientViewHolder = new IngredientViewHolder(view);
+        StepViewHolder stepViewHolder = new StepViewHolder(view);
 
-        return ingredientViewHolder;
+        return stepViewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        IngredientViewHolder ingredientViewHolder = (IngredientViewHolder) holder;
+        StepViewHolder stepViewHolder = (StepViewHolder) holder;
 
         if(null != list) {
-            Ingredient ingredient = list.get(position);
+            Step step = list.get(position);
 
-            ingredientViewHolder.ingredient.setText(ingredient.getIngredient());
-            ingredientViewHolder.quantityAndMeasure.setText(String.format("%1$,.2f " + ingredient.getMeasure(), ingredient.getQuantity()));
+            stepViewHolder.shortDescription.setText(step.getShortDescription());
+            stepViewHolder.description.setText(step.getDescription());
 
         }
     }

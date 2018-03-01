@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskDelegate
     }
 
     private void launchIngredientIntentActivity(int adapterPosition) {
-        Intent ingredientIntent = new Intent(this, IngredientsActivity.class);
+        Intent ingredientIntent = new Intent(this, RecipeDetailsActivity.class);
         Recipe recipe = recipes.get(adapterPosition);
         List<Ingredient> ingredients = this.recipes.get(adapterPosition).getIngredients();
         List<Step> steps = this.recipes.get(adapterPosition).getSteps();
