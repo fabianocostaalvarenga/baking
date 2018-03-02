@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RecipeDetailsActivity" />
+        <activity android:name=".RecipeDetailsActivity"
+            android:parentActivityName=".MainActivity"/>
 
     </application>
 
