@@ -23,6 +23,7 @@
         </activity>
 
         <activity android:name=".RecipeDetailsActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".MainActivity"/>
 
     </application>

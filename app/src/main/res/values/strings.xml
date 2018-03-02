@@ -11,4 +11,5 @@
     <string name="no_internet_connection">Internet connection not available.</string>
     <string name="label_retry">Retry</string>
     <string name="please_wait">Please wait...</string>
+
 </resources>

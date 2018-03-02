@@ -13,12 +13,10 @@ import com.udacity.baking.R;
 public class StepViewHolder extends RecyclerView.ViewHolder {
 
     final TextView shortDescription;
-    final TextView description;
 
     public StepViewHolder(View itemView) {
         super(itemView);
         this.shortDescription = (TextView) itemView.findViewById(R.id.tv_short_description);
-        this.description = (TextView) itemView.findViewById(R.id.tv_description);
     }
 
 }

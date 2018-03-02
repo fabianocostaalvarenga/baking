@@ -42,8 +42,8 @@ public class StepAdapter extends RecyclerView.Adapter {
         if(null != list) {
             Step step = list.get(position);
 
-            stepViewHolder.shortDescription.setText(step.getShortDescription());
-            stepViewHolder.description.setText(step.getDescription());
+            String stepText = step.getId() +" - "+ step.getShortDescription();
+            stepViewHolder.shortDescription.setText(stepText);
 
         }
     }
