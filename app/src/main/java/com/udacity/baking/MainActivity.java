@@ -2,11 +2,13 @@ package com.udacity.baking;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -41,7 +43,13 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskDelegate
 
         rvMain = activityMainBinding.rvMain;
 
-        RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        int columns = 1;
+        final int orientation = this.getResources().getConfiguration().orientation;
+        if (Configuration.ORIENTATION_LANDSCAPE == orientation) {
+            columns = 3;
+        }
+
+        final GridLayoutManager layout = new GridLayoutManager(this, columns);
 
         rvMain.setLayoutManager(layout);
 
