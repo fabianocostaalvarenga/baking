@@ -19,10 +19,12 @@ public class StepAdapter extends RecyclerView.Adapter {
 
     private Context ctx;
     private List<Step> list;
+    private OnItemClickListener listener;
 
-    public StepAdapter(Context ctx, List<Step> list) {
+    public StepAdapter(Context ctx, List<Step> list, OnItemClickListener listener) {
         this.ctx = ctx;
         this.list = list;
+        this.listener = listener;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class StepAdapter extends RecyclerView.Adapter {
 
         View view = LayoutInflater.from(this.ctx).inflate(R.layout.rv_step_item, parent, false);
 
-        StepViewHolder stepViewHolder = new StepViewHolder(view);
+        StepViewHolder stepViewHolder = new StepViewHolder(view, listener);
 
         return stepViewHolder;
     }

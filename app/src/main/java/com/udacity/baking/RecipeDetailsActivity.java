@@ -6,14 +6,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.udacity.baking.adapter.IngredientAdapter;
+import com.udacity.baking.adapter.OnItemClickListener;
 import com.udacity.baking.adapter.StepAdapter;
 import com.udacity.baking.databinding.RvContainerBinding;
 import com.udacity.baking.model.Ingredient;
 import com.udacity.baking.model.Step;
 
 import java.util.List;
+
+import static com.udacity.baking.R.layout.rv_container;
 
 /**
  * Created by fabiano.alvarenga on 27/02/18.
@@ -29,9 +33,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rv_container);
+        setContentView(rv_container);
 
-        rvContainerBinding = DataBindingUtil.setContentView(this, R.layout.rv_container);
+        rvContainerBinding = DataBindingUtil.setContentView(this, rv_container);
 
         Intent intent = getIntent();
         if(null != intent.getExtras()) {
@@ -55,12 +59,22 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         rvIngredients.setAdapter(new IngredientAdapter(this, ingredients));
     }
 
-    private void makeStepsRecycleView(List<Step> steps) {
+    private void makeStepsRecycleView(final List<Step> steps) {
         rvSteps = rvContainerBinding.rvSteps;
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvSteps.setLayoutManager(layout);
-        rvSteps.setAdapter(new StepAdapter(this, steps));
+        rvSteps.setAdapter(new StepAdapter(this, steps, new OnItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                launchIntentStepDetailActivity(steps.get(position));
+            }
+        }));
     }
 
+    private void launchIntentStepDetailActivity(Step step) {
+        Intent stepIntent = new Intent(this, StepDetailActivity.class);
+        stepIntent.putExtra(Step.class.getSimpleName(), step);
+        startActivity(stepIntent);
+    }
 
 }

@@ -11,5 +11,7 @@
     <string name="no_internet_connection">Internet connection not available.</string>
     <string name="label_retry">Retry</string>
     <string name="please_wait">Please wait...</string>
+    <string name="image_description">image_step</string>
+    <string name="user_agent_video_player">exoplayer-codelab</string>
 
 </resources>

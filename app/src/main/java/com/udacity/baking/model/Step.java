@@ -16,8 +16,8 @@ public class Step implements Parcelable {
     @JsonField private Long id;
     @JsonField private String shortDescription;
     @JsonField private String description;
-    @JsonField private String videoUrl;
-    @JsonField private String thumbinailUrl;
+    @JsonField(name = "videoURL") private String videoUrl;
+    @JsonField(name = "thumbnailURL") private String thumbnailUrl;
 
     public Step() {}
 
@@ -26,7 +26,7 @@ public class Step implements Parcelable {
         shortDescription = in.readString();
         description = in.readString();
         videoUrl = in.readString();
-        thumbinailUrl = in.readString();
+        thumbnailUrl = in.readString();
     }
 
     public static final Creator<Step> CREATOR = new Creator<Step>() {
@@ -73,12 +73,12 @@ public class Step implements Parcelable {
         this.videoUrl = videoUrl;
     }
 
-    public String getThumbinailUrl() {
-        return thumbinailUrl;
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
     }
 
-    public void setThumbinailUrl(String thumbinailUrl) {
-        this.thumbinailUrl = thumbinailUrl;
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     @Override
@@ -92,6 +92,6 @@ public class Step implements Parcelable {
         dest.writeString(shortDescription);
         dest.writeString(description);
         dest.writeString(videoUrl);
-        dest.writeString(thumbinailUrl);
+        dest.writeString(thumbnailUrl);
     }
 }
