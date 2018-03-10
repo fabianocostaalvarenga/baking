@@ -44,14 +44,8 @@ public class StepDetailFragment extends Fragment {
     private String urlVideo;
     private boolean playWhenReady = true;
 
-    public static final String FULLSCREEN_VIDEO = "FULLSCREEN_VIDEO";
-    public static final String VIDEO_POSITION_KEY = "VIDEO_POSITION_KEY";
-    public static final String VIDEO_PLAYING_KEY = "VIDEO_PLAYING_KEY";
-
     private long mCurrentVideoPosition = C.INDEX_UNSET;
-    private boolean mPlayVideoWhenReady = true;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
@@ -63,39 +57,21 @@ public class StepDetailFragment extends Fragment {
         final Bundle arguments = getArguments();
         final Step step = (Step) arguments.getParcelable(Step.class.getSimpleName());
 
-        urlVideo = step.getVideoUrl();
+        if(null != step) {
+            urlVideo = step.getVideoUrl();
+            final TextView description = (TextView) rootView.findViewById(R.id.tv_step_description);
+            description.setText(step.getDescription());
+        }
+
+        simpleExoPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.sepv_step_visualization);
 
         if (null != urlVideo && !urlVideo.isEmpty()) {
-
-            simpleExoPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.sepv_step_visualization);
-
-            if (null != savedInstanceState && savedInstanceState.containsKey(VIDEO_POSITION_KEY)
-                    && savedInstanceState.containsKey(VIDEO_PLAYING_KEY)) {
-                mCurrentVideoPosition = savedInstanceState.getLong(VIDEO_POSITION_KEY);
-                mPlayVideoWhenReady = savedInstanceState.getBoolean(VIDEO_PLAYING_KEY);
-            }
-
             initializeVideoPlayer();
-            simpleExoPlayerView.setVisibility(View.VISIBLE);
-
-            if (arguments.getBoolean(FULLSCREEN_VIDEO, false)) {
-                simpleExoPlayerView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        final int fullscreenHeight = rootView.getLayoutParams().height;
-                        simpleExoPlayerView.getLayoutParams().height = fullscreenHeight;
-                        simpleExoPlayerView.requestLayout();
-                    }
-                });
-            }
         } else {
-            simpleExoPlayerView.setVisibility(View.INVISIBLE);
+            simpleExoPlayerView.setVisibility(View.GONE);
         }
 
         initializeImage(rootView, step);
-
-        final TextView description = (TextView) rootView.findViewById(R.id.tv_step_description);
-        description.setText(step.getDescription());
 
         return rootView;
 
@@ -131,14 +107,11 @@ public class StepDetailFragment extends Fragment {
         releaseVideoPlayer();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putLong(VIDEO_POSITION_KEY, mCurrentVideoPosition);
-        outState.putBoolean(VIDEO_PLAYING_KEY, mPlayVideoWhenReady);
-    }
-
     private void initializeImage(View view, Step step) {
+
+        if(null == step) {
+            return;
+        }
 
         ImageView imageView = (ImageView) view.findViewById(R.id.iv_step_visualization) ;
 
@@ -153,7 +126,8 @@ public class StepDetailFragment extends Fragment {
     }
 
     private void initializeVideoPlayer() {
-        if (null == player && null != urlVideo && null != simpleExoPlayerView) {
+        if (null == player && (null != urlVideo && !urlVideo.isEmpty()) && null != simpleExoPlayerView) {
+            simpleExoPlayerView.setVisibility(View.VISIBLE);
             final BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             final TrackSelection.Factory videoTrackSelectionFactory =
                     new AdaptiveTrackSelection.Factory(bandwidthMeter);
@@ -185,7 +159,7 @@ public class StepDetailFragment extends Fragment {
 
         if (null != player) {
             mCurrentVideoPosition = player.getCurrentPosition();
-            mPlayVideoWhenReady = player.getPlayWhenReady();
+            playWhenReady = player.getPlayWhenReady();
             player.release();
             player = null;
         }

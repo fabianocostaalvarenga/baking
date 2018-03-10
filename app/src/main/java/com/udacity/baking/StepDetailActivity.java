@@ -1,7 +1,6 @@
 package com.udacity.baking;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -34,10 +33,6 @@ public class StepDetailActivity extends AppCompatActivity {
                 this.setTitle(step.getId() + " - " + step.getShortDescription());
 
                 final Bundle arguments = new Bundle();
-                final int orientation = this.getResources().getConfiguration().orientation;
-                if (Configuration.ORIENTATION_LANDSCAPE == orientation) {
-                    arguments.putBoolean(StepDetailFragment.FULLSCREEN_VIDEO, true);
-                }
                 arguments.putParcelable(Step.class.getSimpleName(), step);
 
                 final StepDetailFragment fragment = new StepDetailFragment();
@@ -53,10 +48,6 @@ public class StepDetailActivity extends AppCompatActivity {
 
         }
 
-    }
-
-    private boolean isTablet() {
-        return getResources().getBoolean(R.bool.is_tablet);
     }
 
 }
