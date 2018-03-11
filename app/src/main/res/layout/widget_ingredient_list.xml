@@ -12,11 +12,10 @@
             android:visibility="gone" >
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_receitas"
-                    android:maxWidth="10dp"
-                    android:maxHeight="10dp"/>
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/ic_receitas" />
 
                 <TextView
                     android:id="@+id/tv_widget_title"
@@ -24,8 +23,9 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
                     android:textAllCaps="true"
-                    android:padding="10dp" />
+                    android:padding="5dp"/>
 
         </LinearLayout>
 
@@ -36,8 +36,7 @@
             android:layout_height="wrap_content"
             android:divider="@null"
             android:dividerHeight="1dp"
-            android:visibility="gone"
-            android:padding="10dp"/>
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/ll_empty_data"
@@ -50,11 +49,9 @@
 
                 <ImageView
                     android:id="@+id/img"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_receitas"
-                    android:maxWidth="10dp"
-                    android:maxHeight="10dp" />
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@mipmap/ic_receitas"  />
 
                 <TextView
                     android:layout_below="@+id/img"
