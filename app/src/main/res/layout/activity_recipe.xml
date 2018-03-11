@@ -29,7 +29,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Nutella Pie" />
+                tools:text="@string/tools_text_recipe_item" />
 
             <TextView
                 android:id="@+id/sub_title"
@@ -42,7 +42,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_recipe"
-                tools:text="Yields 8 servings"
+                tools:text="@string/tools_text_recipe_item_serving"
                 android:layout_marginBottom="24dp" />
 
         </android.support.constraint.ConstraintLayout>

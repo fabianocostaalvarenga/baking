@@ -49,7 +49,7 @@
                     android:layout_marginTop="4dp"
                     android:textAppearance="@style/TextAppearance.Design.CollapsingToolbar.Expanded"
                     android:textSize="14sp"
-                    tools:text="Nutella Pie" />
+                    tools:text="@string/tools_text_recipe_item" />
 
             </LinearLayout>
 

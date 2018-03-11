@@ -21,10 +21,10 @@ public class BakingService {
     private String urlApi;
 
     public BakingService(Context context) {
-        this.urlApi = context.getResources().getString(R.string.url_api);
+        this.urlApi = context.getString(R.string.url_api);
     }
 
-    public List<Recipe> getRecipies() {
+    public List<Recipe> getRecipes() {
         List<Recipe> recipes = null;
         try {
             recipes = LoganSquare.parseList(NetWorkUtils.launchRequest(urlApi), Recipe.class);

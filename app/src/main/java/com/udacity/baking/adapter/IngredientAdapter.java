@@ -43,7 +43,13 @@ public class IngredientAdapter extends RecyclerView.Adapter {
             Ingredient ingredient = list.get(position);
 
             ingredientViewHolder.ingredient.setText(ingredient.getIngredient());
-            ingredientViewHolder.quantityAndMeasure.setText(String.format("%1$,.2f " + ingredient.getMeasure(), ingredient.getQuantity()));
+            ingredientViewHolder.quantityAndMeasure.setText(
+                    String.format(
+                            ctx.getString(R.string.pattern_format) +
+                                    " " + ingredient.getMeasure(),
+                            ingredient.getQuantity()
+                    )
+            );
 
         }
     }

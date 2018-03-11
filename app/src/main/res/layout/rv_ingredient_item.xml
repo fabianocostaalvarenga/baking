@@ -13,7 +13,7 @@
         android:layout_marginTop="4dp"
         android:textAppearance="@style/TextAppearance.Design.CollapsingToolbar.Expanded"
         android:textSize="14sp"
-        tools:text="Nutella Pie"
+        tools:text="@string/tools_text_recipe_item"
         android:layout_marginLeft="4dp" />
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_below="@+id/tv_ingredient"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
         android:textSize="8sp"
-        tools:text="2 Cup"
+        tools:text="@string/tools_text_recipe_item_quantity"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp" />

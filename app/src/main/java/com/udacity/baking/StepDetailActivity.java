@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
 import com.udacity.baking.fragment.StepDetailFragment;
 import com.udacity.baking.model.Step;
@@ -16,7 +15,6 @@ import com.udacity.baking.model.Step;
 
 public class StepDetailActivity extends AppCompatActivity {
 
-    private TextView stepDescription;
     private Step step;
 
     @Override
@@ -45,9 +43,6 @@ public class StepDetailActivity extends AppCompatActivity {
                         .commit();
 
             }
-
         }
-
     }
-
 }

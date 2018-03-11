@@ -3,7 +3,6 @@ package com.udacity.baking.widget;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 

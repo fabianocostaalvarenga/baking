@@ -41,7 +41,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if(null != intent.getExtras()) {
-            String title = intent.getStringExtra("TITLE");
+            String title = intent.getStringExtra(this.getString(R.string.key_title));
             this.setTitle(title);
 
             final List<Ingredient> ingredients = intent.getParcelableArrayListExtra(Ingredient.class.getSimpleName());
@@ -119,9 +119,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Context context = RecipeDetailsActivity.this;
-        final Intent intent = getIntent();
         final int itemId = item.getItemId();
-
         switch (itemId) {
             case R.id.action_send_to_widget:
                 IngredientListWidgetProvider.widgetsUpdate(context, recipe);

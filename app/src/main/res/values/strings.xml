@@ -4,6 +4,10 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+    <string name="tools_text_recipe_item">Nutella Pie</string>
+    <string name="tools_text_recipe_item_serving">Yields 8 servings</string>
+    <string name="tools_text_recipe_item_quantity">2 Cup</string>
+
     <string name="label_servings">Servings</string>
     <string name="label_ingredients">Ingredients</string>
     <string name="label_steps">Steps</string>

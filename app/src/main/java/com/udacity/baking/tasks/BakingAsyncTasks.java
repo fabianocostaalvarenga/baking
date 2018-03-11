@@ -15,8 +15,6 @@ import java.util.List;
 
 public class BakingAsyncTasks extends AsyncTask<Void, Long, List<Recipe>> {
 
-    private static final String TAG = BakingAsyncTasks.class.getSimpleName();
-
     private AsyncTaskDelegate taskDelegate;
     private Context ctx;
 
@@ -35,7 +33,7 @@ public class BakingAsyncTasks extends AsyncTask<Void, Long, List<Recipe>> {
 
     @Override
     protected List<Recipe> doInBackground(Void... params) {
-        List<Recipe> recipes = new BakingService(ctx).getRecipies();
+        List<Recipe> recipes = new BakingService(ctx).getRecipes();
         return recipes;
     }
 

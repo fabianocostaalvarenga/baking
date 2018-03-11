@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskDelegate
         List<Step> steps = this.recipes.get(adapterPosition).getSteps();
         recipeIntent.putParcelableArrayListExtra(Ingredient.class.getSimpleName(), (ArrayList<? extends Parcelable>) ingredients);
         recipeIntent.putParcelableArrayListExtra(Step.class.getSimpleName(), (ArrayList<? extends Parcelable>) steps);
-        recipeIntent.putExtra("TITLE", recipe.getName() +" - "+ recipe.getServings() +" "+this.getString(R.string.label_servings));
+        recipeIntent.putExtra(this.getString(R.string.key_title), recipe.getName() +" - "+ recipe.getServings() +" "+this.getString(R.string.label_servings));
         startActivity(recipeIntent);
     }
 }

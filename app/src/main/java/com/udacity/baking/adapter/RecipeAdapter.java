@@ -45,7 +45,13 @@ public class RecipeAdapter extends RecyclerView.Adapter {
             Recipe recipe = list.get(position);
 
             recipeViewHolder.title.setText(recipe.getName());
-            recipeViewHolder.subTitle.setText(String.format("%1$,.2f " + ctx.getString(R.string.label_servings), recipe.getServings()));
+            recipeViewHolder.subTitle.setText(
+                    String.format(
+                            ctx.getString(R.string.pattern_format) +
+                                    " " + ctx.getString(R.string.label_servings),
+                            recipe.getServings()
+                    )
+            );
         }
     }
 
