@@ -1,4 +1,4 @@
-package name.juhasz.judit.udacity.delicious.widget;
+package com.udacity.baking.widget;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,29 +8,29 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.google.gson.Gson;
+import com.udacity.baking.R;
+import com.udacity.baking.model.Ingredient;
+import com.udacity.baking.model.Recipe;
 
 import java.util.List;
 
-import name.juhasz.judit.udacity.delicious.R;
-import name.juhasz.judit.udacity.delicious.model.Ingredient;
-import name.juhasz.judit.udacity.delicious.model.Recipe;
-
 public class IngredientListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory,
         SharedPreferences.OnSharedPreferenceChangeListener {
-    private Context mContext = null;
-    private List<Ingredient> mIngredients = null;
 
-    public IngredientListRemoteViewsFactory(@NonNull final Context context) {
-        mContext = context;
+    private Context context = null;
+    private List<Ingredient> ingredients = null;
+
+    public IngredientListRemoteViewsFactory(final Context context) {
+        this.context = context;
         final SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(mContext);
-        fetchIngredientList(sharedPreferences);
+                PreferenceManager.getDefaultSharedPreferences(this.context);
+        getIngredients(sharedPreferences);
     }
 
     @Override
     public void onCreate() {
         final SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(mContext);
+                PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -42,25 +42,23 @@ public class IngredientListRemoteViewsFactory implements RemoteViewsService.Remo
     @Override
     public void onDestroy() {
         final SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(mContext);
+                PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public int getCount() {
-        return (null == mIngredients) ? 0 : mIngredients.size();
+        return (null == ingredients) ? 0 : ingredients.size();
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
-        RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.item_ingredient);
-        final Ingredient ingredient = mIngredients.get(position);
-        final String ingredientNameText = ingredient.getIngredientName();
-        final String ingredientText = mContext.getString(R.string.ingredient_format,
-                String.valueOf(ingredient.getQuantity()),
-                ingredient.getMeasure());
-        rv.setTextViewText(R.id.tv_ingredient_name, ingredientNameText);
-        rv.setTextViewText(R.id.tv_ingredient, ingredientText);
+        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.rv_ingredient_item);
+        final Ingredient ingredient = ingredients.get(position);
+        final String ingredientNameText = ingredient.getIngredient();
+        final String ingredientText = ingredient.getQuantity() +" - "+  ingredient.getMeasure();
+        rv.setTextViewText(R.id.tv_ingredient, ingredientNameText);
+        rv.setTextViewText(R.id.tv_quantity_measure, ingredientText);
         return rv;
     }
 
@@ -76,28 +74,27 @@ public class IngredientListRemoteViewsFactory implements RemoteViewsService.Remo
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     @Override
     public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences,
                                           final String key) {
-        if (key.equals("recipe_on_widget")) {
-            fetchIngredientList(sharedPreferences);
+        if (key.equals(context.getResources().getString(R.string.key_widget_value))) {
+            getIngredients(sharedPreferences);
         }
     }
 
-    private void fetchIngredientList(final SharedPreferences sharedPreferences) {
-        final String recipeJson = sharedPreferences.getString("recipe_on_widget",null);
-        final Recipe recipe =
-                (null == recipeJson) ? null : new Gson().fromJson(recipeJson, Recipe.class);
+    private void getIngredients(final SharedPreferences sharedPreferences) {
+        final String json = sharedPreferences.getString(context.getResources().getString(R.string.key_widget_value),null);
+        final Recipe recipe = (null == json) ? null : new Gson().fromJson(json, Recipe.class);
         if (null != recipe) {
-            mIngredients = recipe.getIngredients();
+            ingredients = recipe.getIngredients();
             onDataSetChanged();
         }
     }

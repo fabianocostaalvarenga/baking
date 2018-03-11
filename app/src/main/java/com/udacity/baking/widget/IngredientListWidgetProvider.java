@@ -1,4 +1,4 @@
-package name.juhasz.judit.udacity.delicious.widget;
+package com.udacity.baking.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -12,25 +12,23 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.google.gson.Gson;
-
-import name.juhasz.judit.udacity.delicious.R;
-import name.juhasz.judit.udacity.delicious.model.Recipe;
+import com.udacity.baking.R;
+import com.udacity.baking.model.Recipe;
 
 public class IngredientListWidgetProvider extends AppWidgetProvider {
 
-    public static void updateAllWidgets(final Context context, final Recipe recipe) {
-        final SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(context);
+    public static void widgetsUpdate(final Context context, final Recipe recipe) {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final String json = new Gson().toJson(recipe);
-        sharedPreferences.edit().putString("recipe_on_widget", json).apply();
+        sharedPreferences.edit().putString(context.getResources().getString(R.string.key_widget_value), json).apply();
         final Class<IngredientListWidgetProvider> widgetProviderClass
                 = IngredientListWidgetProvider.class;
-        final Intent updateWidgetIntent = new Intent(context, widgetProviderClass);
-        updateWidgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        final Intent intent = new Intent(context, widgetProviderClass);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         final int[] appWidgetIds = AppWidgetManager.getInstance(context)
                 .getAppWidgetIds(new ComponentName(context, widgetProviderClass));
-        updateWidgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-        context.sendBroadcast(updateWidgetIntent);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+        context.sendBroadcast(intent);
     }
 
     @Override
@@ -51,8 +49,8 @@ public class IngredientListWidgetProvider extends AppWidgetProvider {
                          final AppWidgetManager appWidgetManager,
                          final int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
-            final Recipe recipe = getSelectedRecipe(context);
-            final RemoteViews views = getRemoteViews(context);
+            final Recipe recipe = getRecipe(context);
+            final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_ingredient_list);
             if (null != recipe) {
                 showIngredientList(views, context, appWidgetId, recipe);
             } else {
@@ -67,9 +65,9 @@ public class IngredientListWidgetProvider extends AppWidgetProvider {
                                     final Context context,
                                     final int appWidgetId,
                                     final Recipe recipe) {
-        views.setViewVisibility(R.id.tv_empty_widget, View.GONE);
+        views.setViewVisibility(R.id.ll_empty_data, View.GONE);
 
-        views.setViewVisibility(R.id.tv_widget_title, View.VISIBLE);
+        views.setViewVisibility(R.id.ll_title, View.VISIBLE);
         views.setTextViewText(R.id.tv_widget_title, recipe.getName());
 
         views.setViewVisibility(R.id.lv_widget_ingredients, View.VISIBLE);
@@ -80,19 +78,14 @@ public class IngredientListWidgetProvider extends AppWidgetProvider {
     }
 
     private void showEmptyMessage(final RemoteViews views) {
-        views.setViewVisibility(R.id.tv_widget_title, View.GONE);
+        views.setViewVisibility(R.id.ll_title, View.GONE);
         views.setViewVisibility(R.id.lv_widget_ingredients, View.GONE);
-        views.setViewVisibility(R.id.tv_empty_widget, View.VISIBLE);
+        views.setViewVisibility(R.id.ll_empty_data, View.VISIBLE);
     }
 
-    private RemoteViews getRemoteViews(final Context context) {
-        return new RemoteViews(context.getPackageName(), R.layout.widget_ingredient_list);
-    }
-
-    private Recipe getSelectedRecipe(final Context context) {
-        final SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(context);
-        final String recipeJson = sharedPreferences.getString("recipe_on_widget",null);
-        return (null == recipeJson) ? null : new Gson().fromJson(recipeJson, Recipe.class);
+    private Recipe getRecipe(final Context context) {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final String json = sharedPreferences.getString(context.getResources().getString(R.string.key_widget_value),null);
+        return (null == json) ? null : new Gson().fromJson(json, Recipe.class);
     }
 }
