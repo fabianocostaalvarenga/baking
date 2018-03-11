@@ -97,4 +97,5 @@ public class IngredientListRemoteViewsFactory implements RemoteViewsService.Remo
             onDataSetChanged();
         }
     }
+
 }

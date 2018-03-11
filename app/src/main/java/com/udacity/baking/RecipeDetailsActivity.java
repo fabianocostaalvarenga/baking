@@ -52,39 +52,49 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             recipe.setIngredients(ingredients);
             recipe.setSteps(steps);
 
-            final Bundle arguments = new Bundle();
-            arguments.putParcelableArrayList(Ingredient.class.getSimpleName(), (ArrayList<? extends Parcelable>) ingredients);
-            arguments.putParcelableArrayList(Step.class.getSimpleName(), (ArrayList<? extends Parcelable>) steps);
+            initializeComponents(ingredients, steps);
 
-            final RecipeDetailFragment fragment = new RecipeDetailFragment(new OnItemClickListener() {
-                @Override
-                public void onClick(View view, int position) {
-                    if(isTablet()) {
-                        if(null != steps && !steps.isEmpty()) {
-                            setStepDetailItemFragment(steps.get(position));
-                        }
-                    } else {
-                        launchIntentStepDetailActivity(steps.get(position));
-                    }
-                }
-            });
+        } else {
+            recipe = IngredientListWidgetProvider.getRecipe(this);
+            this.setTitle(recipe.getName() +" - "+ recipe.getServings() +" "+this.getString(R.string.label_servings));
 
-            fragment.setArguments(arguments);
-
-            final FragmentManager fragmentManager = getSupportFragmentManager();
-
-            fragmentManager.beginTransaction()
-                    .add(R.id.container_recipe_details, fragment)
-                    .commit();
-
-            if(isTablet()) {
-                if(null != steps && !steps.isEmpty()) {
-                    setStepDetailItemFragment(steps.get(0));
-                }
-            }
-
+            initializeComponents(recipe.getIngredients(), recipe.getSteps());
         }
 
+    }
+
+    private void initializeComponents(final List<Ingredient> ingredients, final List<Step> steps) {
+
+        final Bundle arguments = new Bundle();
+        arguments.putParcelableArrayList(Ingredient.class.getSimpleName(), (ArrayList<? extends Parcelable>) ingredients);
+        arguments.putParcelableArrayList(Step.class.getSimpleName(), (ArrayList<? extends Parcelable>) steps);
+
+        final RecipeDetailFragment fragment = new RecipeDetailFragment(new OnItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                if(isTablet()) {
+                    if(null != steps && !steps.isEmpty()) {
+                        setStepDetailItemFragment(steps.get(position));
+                    }
+                } else {
+                    launchIntentStepDetailActivity(steps.get(position));
+                }
+            }
+        });
+
+        fragment.setArguments(arguments);
+
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .add(R.id.container_recipe_details, fragment)
+                .commit();
+
+        if(isTablet()) {
+            if(null != steps && !steps.isEmpty()) {
+                setStepDetailItemFragment(steps.get(0));
+            }
+        }
     }
 
     private void setStepDetailItemFragment(final Step step) {
